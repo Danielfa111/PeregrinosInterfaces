@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CarnetPeregrinos" pageWidth="802" pageHeight="210" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="88db7718-dc44-4979-8f11-507484cbacae">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Peregrinos"/>
+	<parameter name="IdPeregrino" class="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT bdtarea3ad_danielfernandez.carnets.id,
+	bdtarea3ad_danielfernandez.carnets.`distancia recorrida`,
+	bdtarea3ad_danielfernandez.carnets.`estancias vips`,
+	bdtarea3ad_danielfernandez.carnets.`fecha de expedicion`,
+	bdtarea3ad_danielfernandez.peregrinos.id,
+	bdtarea3ad_danielfernandez.peregrinos.nacionalidad,
+	bdtarea3ad_danielfernandez.peregrinos.nombre
+FROM bdtarea3ad_danielfernandez.carnets,
+	bdtarea3ad_danielfernandez.peregrinos
+WHERE $P{IdPeregrino} = bdtarea3ad_danielfernandez.carnets.id and
+$P{IdPeregrino} =  bdtarea3ad_danielfernandez.peregrinos.id]]>
+	</queryString>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="carnets"/>
+	</field>
+	<field name="distancia recorrida" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="distancia recorrida"/>
+		<property name="com.jaspersoft.studio.field.label" value="distancia recorrida"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="carnets"/>
+	</field>
+	<field name="estancias vips" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="estancias vips"/>
+		<property name="com.jaspersoft.studio.field.label" value="estancias vips"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="carnets"/>
+	</field>
+	<field name="fecha de expedicion" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha de expedicion"/>
+		<property name="com.jaspersoft.studio.field.label" value="fecha de expedicion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="carnets"/>
+	</field>
+	<field name="COLUMN_5" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="id"/>
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="peregrinos"/>
+	</field>
+	<field name="nacionalidad" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nacionalidad"/>
+		<property name="com.jaspersoft.studio.field.label" value="nacionalidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="peregrinos"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="peregrinos"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="81" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="802" height="80" backcolor="#0D6DC4" uuid="9c3656b4-f183-4c35-af27-a3b172d266e2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="0" width="320" height="80" forecolor="#DAEAF9" uuid="9c66cc3a-81ba-47b5-8380-cee931d0bdcc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="26"/>
+				</textElement>
+				<text><![CDATA[CARNET DE PEREGRINO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="740" y="0" width="41" height="80" forecolor="#DAEAF9" uuid="2e33cf75-eb56-49ae-8e1e-4248b1d9905b"/>
+				<textElement textAlignment="Center">
+					<font size="26"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="370" y="10" width="70" height="60" uuid="d3fbcc0a-400a-428c-9286-dcf4e1a1182b"/>
+				<imageExpression><![CDATA["/images/ConchaSantiago.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<detail>
+		<band height="130" splitType="Stretch">
+			<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+			<rectangle>
+				<reportElement x="0" y="0" width="802" height="130" backcolor="#0D6DC4" uuid="09df4fb6-2703-4b87-a38d-72b028d30639"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="290" y="90" width="122" height="16" forecolor="#DAEAF9" uuid="b4eede74-983d-412a-9177-f9bfba965f11">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Numero de estancias vips:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="412" y="90" width="100" height="16" forecolor="#DAEAF9" uuid="683a7d73-4f84-4fe8-a6e6-2fc1caf59860">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{estancias vips}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="110" y="20" width="100" height="16" forecolor="#DAEAF9" uuid="fafa7ce4-72f7-4ddc-9585-aaf792f0f9e5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="20" width="100" height="16" forecolor="#DAEAF9" uuid="87fadfe9-732d-4fe6-ad21-de0984e5533e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="57" width="100" height="16" forecolor="#DAEAF9" uuid="b4c14418-b380-4705-93d8-6c1a8bbf66aa">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nacionalidad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="57" width="100" height="16" forecolor="#DAEAF9" uuid="6acf0dd6-be21-43fb-84eb-9f15f97681f4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Nacionalidad:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="390" y="20" width="133" height="16" forecolor="#DAEAF9" uuid="39e39093-bc45-4abb-a8f5-3a8c005fe572">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{fecha de expedicion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="290" y="20" width="100" height="16" forecolor="#DAEAF9" uuid="cd79f6cb-c44b-4492-babd-34e944f1ad4d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Fecha de expedicion: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="110" y="90" width="100" height="16" forecolor="#DAEAF9" uuid="709dd025-0de6-4273-886a-b76f15305c58">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{distancia recorrida}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="90" width="100" height="16" forecolor="#DAEAF9" uuid="abdb80be-15b6-4de5-beb2-8203120aac6b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<text><![CDATA[Distancia recorrida:]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>
