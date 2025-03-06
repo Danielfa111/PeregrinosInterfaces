@@ -132,7 +132,6 @@ public class AdministradorController implements Initializable{
 		
 	}
 	
-//	@Transactional
 	public void clickRegistrar() {
 		
 		if(Utils.confirmarDatos().getResult().equals(ButtonType.OK)) {

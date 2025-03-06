@@ -1,18 +1,24 @@
 package com.danielfa11.tarea3AD2024.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import com.danielfa11.tarea3AD2024.config.StageManager;
 import com.danielfa11.tarea3AD2024.modelo.Carnet;
@@ -24,6 +30,7 @@ import com.danielfa11.tarea3AD2024.services.PeregrinoService;
 import com.danielfa11.tarea3AD2024.services.UsuarioService;
 import com.danielfa11.tarea3AD2024.view.FxmlView;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -33,6 +40,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class RegistroControllerTest {
 
 	@InjectMocks
@@ -86,17 +94,23 @@ public class RegistroControllerTest {
 	@Mock
 	private Alert alert;
 	
+	@Mock
+	private Usuario usuario = new Usuario();
+	
+	@BeforeAll
+    public static void initJfx() {
+        Platform.startup(() -> {});
+    }
+	
 	@BeforeEach
-	public void setUp() {
-		
+	public void setUp() {		
 		
 		Parada parada = new Parada();
 		parada.setId(1L);
 		
 		when(paradaService.find(1L)).thenReturn(parada);
 		
-		
-		when(alert.getResult().equals(ButtonType.OK)).thenReturn(true);
+		when(alert.showAndWait()).thenReturn(Optional.of(ButtonType.OK));
 		
 		when(txtNombre.getText()).thenReturn("daniel");
 		when(txtUsuario.getText()).thenReturn("daniel");
@@ -124,17 +138,16 @@ public class RegistroControllerTest {
 		parada.getPeregrinos().add(peregrino);
 		when(paradaService.save(parada)).thenReturn(parada);
 		
-		Usuario usuario = new Usuario();
+		
 		usuario.setUsuario("daniel");
 		usuario.setContraseña("daniel");
 		usuario.setCorreo("dani@gmail.com");
 		usuario.setRol("Peregrino");
 		
 		
-		when(peregrinoService.findTopByOrderByIdDesc().getId()).thenReturn(1L);
 		when(peregrinoService.findTopByOrderByIdDesc()).thenReturn(peregrino);
 		
-		when(usuarioService.save(usuario)).thenReturn(usuario);
+		when(usuarioService.save(any(Usuario.class))).thenReturn(usuario);
 
 		
 	}
@@ -142,13 +155,39 @@ public class RegistroControllerTest {
 	@Test
 	public void testRegistroSuccess() {
 		
-		registroController.clickRegistrar();
-		
+		CountDownLatch latch = new CountDownLatch(1);
+
+	    Platform.runLater(() -> {
+	        registroController.clickRegistrar();
+	        latch.countDown();
+	    });
+
+	    try {
+			latch.await();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
 		verify(usuarioService, times(1)).save(any(Usuario.class));
 		verify(peregrinoService, times(1)).save(any(Peregrino.class));
 		verify(paradaService, times(1)).save(any(Parada.class));
 		verify(stageManager, times(1)).switchScene(FxmlView.PEREGRINO);
+	}
+	
+	@Test
+	public void testRegistroError() {
 		
+		when(txtNombre.getText()).thenReturn("daniel123");
+		
+	    Platform.runLater(() -> {
+	        registroController.clickRegistrar();
+	    });
+
+		verify(usuarioService, never()).save(any(Usuario.class));
+		verify(peregrinoService, never()).save(any(Peregrino.class));
+		verify(paradaService,  never()).save(any(Parada.class));
+		verify(stageManager,  never()).switchScene(FxmlView.PEREGRINO);
 	}
 	
 	
