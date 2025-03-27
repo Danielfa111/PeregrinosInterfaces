@@ -24,6 +24,10 @@ public class Utils {
 
 	private static TreeMap<String, String> diccionarioPaises;
 	
+	/*
+	 * Metodo para extraer las nacionalidades disponibles
+	 */
+	
 	public static TreeMap<String, String> getDiccionarioPaises()
 	{
 		
@@ -80,6 +84,10 @@ public class Utils {
 	
 	// Validaciones
 	
+	/*
+	 * Validacion de nombre
+	 */
+	
 	public static boolean validarNombre(String nombre){
 		String regex = "^[A-Za-záéíóúÁÉÍÓÚüÜ]+(\\s[A-Za-záéíóúÁÉÍÓÚüÜ]+)*$";
 		
@@ -103,14 +111,26 @@ public class Utils {
 		}
 	}
 	
+	/*
+	 * Validacion de contraseña
+	 */
+	
 	public static boolean validarContraseña(String contraseña) {
 		
 		if(contraseña.isBlank()) {
 			alertaContraseñaVacia();
 			return false;
 		}
-		return true;
+        else if(contraseña.contains(" ")){
+        	alertaContraseña();
+        	return false;
+        }
+        return true;
 	}
+	
+	/*
+	 * Validacion de email
+	 */
 	
 	public static boolean validarEmail(String email) {
 		
@@ -132,6 +152,27 @@ public class Utils {
 
     }
 	
+	/*
+	 * Validacion de usuario
+	 */
+	
+	public static boolean validarUsuario(String usuario) {
+		        
+        if(usuario.isBlank()) {
+        	alertaUsuarioVacio();
+        	return false;
+        }        
+        else if(usuario.contains(" ")){
+        	alertaUsuario();
+        	return false;
+        }
+        return true;
+    }
+	
+	/*
+	 * Metodo para conseguir los ids de las nacionalidades por su nombre
+	 */
+	
 	public static String getKeyByValue(Map<String, String> map, String value) {
         for (Map.Entry<String, String> entry : map.entrySet()) {
             if (entry.getValue().equals(value)) {
@@ -143,6 +184,33 @@ public class Utils {
 	
 	// Alertas
 	
+	/*
+	 * Alerta de usuario vacio
+	 */
+	
+	public static void alertaUsuarioVacio() {
+		Alert alerta = new Alert(AlertType.WARNING);
+		alerta.setTitle("Usuario vacio");
+		alerta.setContentText("No dejes el usuario vacio");
+		alerta.show();
+	}
+	
+	/*
+	 * Alerta de usuario incorrecto
+	 */
+	
+	public static void alertaUsuario() {
+		Alert alerta = new Alert(AlertType.WARNING);
+		alerta.setTitle("Usuario incorrecto");
+		alerta.setContentText("No dejes espacios en blanco");
+		alerta.show();
+	}
+	
+	
+	/*
+	 * Alerta de confirmacion de datos
+	 */
+	
 	public static Alert confirmarDatos() {
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmar datos");
@@ -151,12 +219,20 @@ public class Utils {
         return alert;
 	}
 	
+	/*
+	 * Alerta de nombre vacio
+	 */
+	
 	public static void alertaNombreVacio() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Nombre vacio");
 		alerta.setContentText("No dejes el nombre vacio");
 		alerta.show();
 	}
+	
+	/*
+	 * Alerta de nombre incorrecto
+	 */
 	
 	public static void alertaNombre() {
 		Alert alerta = new Alert(AlertType.WARNING);
@@ -165,6 +241,10 @@ public class Utils {
 		alerta.show();
 	}
 	
+	/*
+	 * Alerta de contraseña vacia
+	 */
+	
 	public static void alertaContraseñaVacia() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Contraseña vacia");
@@ -172,12 +252,31 @@ public class Utils {
 		alerta.show();
 	}
 	
+	/*
+	 * Alerta de contraseña incorrecta
+	 */
+	
+	public static void alertaContraseña() {
+		Alert alerta = new Alert(AlertType.WARNING);
+		alerta.setTitle("Contraseña incorrecta");
+		alerta.setContentText("No dejes espacios en blanco");
+		alerta.show();
+	}
+	
+	/*
+	 * Alerta de email vacio
+	 */
+	
 	public static void alertaEmailVacio() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Email vacio");
 		alerta.setContentText("No dejes el email vacio");
 		alerta.show();
 	}
+	
+	/*
+	 * Alerta de email incorrecto
+	 */
 	
 	public static void alertaEmail() {
 		Alert alerta = new Alert(AlertType.WARNING);

@@ -81,6 +81,10 @@ public class RegistroController implements Initializable{
 	
 	private ObservableList<Parada> paradas;
 	
+	/*
+	 * Metodo para cargar datos al iniciar la vista
+	 */
+	
 	@SuppressWarnings("unused")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -119,10 +123,15 @@ public class RegistroController implements Initializable{
 		
 	}
 	
+	/*
+	 * Metodo para registrar una parada
+	 */
+	
 	public void clickRegistrar() {
 		
 		if(Utils.confirmarDatos().getResult().equals(ButtonType.OK)) {
 			if(Utils.validarNombre(txtNombre.getText())
+				&& Utils.validarUsuario(txtUsuario.getText())
 				&& usuarioExistente(txtUsuario.getText())
 				&& Utils.validarContraseña(ptxtContraseña.getText())
 				&& contraseñasIguales()
@@ -176,11 +185,17 @@ public class RegistroController implements Initializable{
 	}
 	
 	
+	/*
+	 * Metodo para volver a la vista de login
+	 */
+	
 	public void clickCancelar() {
 		stageManager.switchScene(FxmlView.LOGIN);
 	}
 	
-	
+	/*
+	 * Metodo de validacion de contraseñas iguales
+	 */
 	
 	private boolean contraseñasIguales() {
 		if(ptxtContraseña.getText().equals(ptxtConfirmar.getText())) {
@@ -193,6 +208,10 @@ public class RegistroController implements Initializable{
 		}
 		
 	}	
+	
+	/*
+	 * Alerta de contraseñas iguales
+	 */
 
 	private void alertaContraseñasIguales() {
 		Alert alerta = new Alert(AlertType.WARNING);
@@ -200,6 +219,10 @@ public class RegistroController implements Initializable{
 		alerta.setContentText("Las contraseñas no coinciden");
 		alerta.show();
 	}
+	
+	/*
+	 * Metodo de validacion de nacionalidad
+	 */
 	
 	private boolean validarNacionalidad() {
 		if(cboxNacionalidad.getValue() == null) {
@@ -211,12 +234,20 @@ public class RegistroController implements Initializable{
 		}
 	}
 	
+	/*
+	 * Alerta de nacionalidad vacia
+	 */
+	
 	private void alertaNacionalidadVacia() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Nacionalidad vacia");
 		alerta.setContentText("Escoge nacionalidad");
 		alerta.show();
 	}
+	
+	/*
+	 * Metodo para validar usuario existente o vacio
+	 */
 	
 	private boolean usuarioExistente(String usuario) {
 		if(usuario.isBlank()) {
@@ -230,12 +261,20 @@ public class RegistroController implements Initializable{
 		return true;
 	}
 	
+	/*
+	 * Alerta de usuario existente
+	 */
+	
 	private void alertaUsuario() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Usuario existente");
 		alerta.setContentText("Ese usuario ya existe");
 		alerta.show();
 	}
+	
+	/*
+	 * Alerta de usuario vacio
+	 */
 	
 	private void alertaUsuarioVacio() {
 		Alert alerta = new Alert(AlertType.WARNING);

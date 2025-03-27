@@ -113,7 +113,9 @@ public class AdministradorController implements Initializable{
 	
 	private List<Character> regiones = Arrays.asList('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 	
-	
+	/*
+	 * Metodo para cargar datos al iniciar la vista
+	 */
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {	
@@ -124,6 +126,10 @@ public class AdministradorController implements Initializable{
 	 	cboxRegion.getItems().addAll(regiones);
 	}
 	
+	/*
+	 * Metodo para volver al panel principal
+	 */
+	
 	public void clickCancelar() {
 		
 		panelPrincipal.setVisible(true);
@@ -132,10 +138,14 @@ public class AdministradorController implements Initializable{
 		
 	}
 	
+	/*
+	 * Metodo para registrar una parada
+	 */
 	public void clickRegistrar() {
 		
 		if(Utils.confirmarDatos().getResult().equals(ButtonType.OK)) {
 			if(Utils.validarNombre(txtNombre.getText())
+				&& Utils.validarUsuario(txtUsuario.getText())
 				&& usuarioExistente(txtUsuario.getText())
 				&& Utils.validarContraseña(ptxtContraseña.getText())
 				&& Utils.validarEmail(txtCorreo.getText())
@@ -172,18 +182,25 @@ public class AdministradorController implements Initializable{
 				panelRegistrar.setVisible(false);	
 				panelAyuda.setVisible(false);
 				
+				alertaConfirmacion();
+				
 			}
 		}
 	}
 	
-	
-	
+	/*
+	 * Metodo para entrar en el menu de registro de paradas
+	 */	
 	public void clickMenuRegistrar() {
 		panelPrincipal.setVisible(false);
 		panelRegistrar.setVisible(true);
 		panelAyuda.setVisible(false);
 	}
 	
+	
+	/*
+	 * Metodo para cerrar sesion y regresar al login
+	 */	
 	public void clickCerrarSesion() {
 		
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -199,6 +216,9 @@ public class AdministradorController implements Initializable{
         }
 	}
 	
+	/*
+	 * Metodo para salir de la aplicación
+	 */		
 	public void clickSalir()
 	{
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -212,6 +232,9 @@ public class AdministradorController implements Initializable{
         }
 	}
 	
+	/*
+	 * Metodo para entrar en el menu de ayuda
+	 */	
 	public void clickAyuda() {
 		
 		panelAyuda.setVisible(true);
@@ -220,119 +243,140 @@ public class AdministradorController implements Initializable{
 		
 	}
 	
+	
+	/*
+	 * Metodo para generar un informe de parada
+	 */	
 	public void clickDatos() {
-		try {
-	        
-	        List<Parada> paradas = paradaService.findAll();
-	        JRBeanCollectionDataSource jrDataSource = new JRBeanCollectionDataSource(paradas);
+		
+		Alert alerta = new Alert(AlertType.CONFIRMATION);
+		alerta.setTitle("Generacion de informe");
+		alerta.setContentText("Si aceptas se generara el informe y se abrira en forma de pdf en google chrome");
+        alerta.showAndWait();
+        
+        if (alerta.getResult().equals(ButtonType.OK)) 
+        {
+        	try {
+    	        
+    	        List<Parada> paradas = paradaService.findAll();
+    	        JRBeanCollectionDataSource jrDataSource = new JRBeanCollectionDataSource(paradas);
 
-	        JasperDesign jasperDesign = new JasperDesign();
-	        jasperDesign.setName("ReporteParadas");
-	        jasperDesign.setColumnCount(1);
-	        jasperDesign.setPageWidth(595);
-	        jasperDesign.setPageHeight(842);
-	        jasperDesign.setLeftMargin(20);
-	        jasperDesign.setRightMargin(20);
-	        jasperDesign.setTopMargin(20);
-	        jasperDesign.setBottomMargin(20);
-	  
-	        String[] fieldNames = {"nombre", "region", "responsable", "peregrinos"};
-	        Class<?>[] fieldTypes = {String.class, Character.class, String.class, List.class};
+    	        JasperDesign jasperDesign = new JasperDesign();
+    	        jasperDesign.setName("ReporteParadas");
+    	        jasperDesign.setColumnCount(1);
+    	        jasperDesign.setPageWidth(595);
+    	        jasperDesign.setPageHeight(842);
+    	        jasperDesign.setLeftMargin(20);
+    	        jasperDesign.setRightMargin(20);
+    	        jasperDesign.setTopMargin(20);
+    	        jasperDesign.setBottomMargin(20);
+    	  
+    	        String[] fieldNames = {"nombre", "region", "responsable", "peregrinos"};
+    	        Class<?>[] fieldTypes = {String.class, Character.class, String.class, List.class};
 
-	        for (int i = 0; i < fieldNames.length; i++) {
-	        	
-	            JRDesignField field = new JRDesignField();
-	            field.setName(fieldNames[i]);
-	            field.setValueClass(fieldTypes[i]);
-	            jasperDesign.addField(field);
-	            
-	        }
+    	        for (int i = 0; i < fieldNames.length; i++) {
+    	        	
+    	            JRDesignField field = new JRDesignField();
+    	            field.setName(fieldNames[i]);
+    	            field.setValueClass(fieldTypes[i]);
+    	            jasperDesign.addField(field);
+    	            
+    	        }
 
-	        JRDesignBand titleBand = new JRDesignBand();
-	        titleBand.setHeight(50);
+    	        JRDesignBand titleBand = new JRDesignBand();
+    	        titleBand.setHeight(50);
 
-	        JRDesignTextField titleTextField = new JRDesignTextField();
-	        titleTextField.setX(0);
-	        titleTextField.setY(0);
-	        titleTextField.setWidth(300);
-	        titleTextField.setHeight(30);
-	        titleTextField.setExpression(new JRDesignExpression("\"Informe de Paradas\""));
-	        titleBand.addElement(titleTextField);
+    	        JRDesignTextField titleTextField = new JRDesignTextField();
+    	        titleTextField.setX(0);
+    	        titleTextField.setY(0);
+    	        titleTextField.setWidth(300);
+    	        titleTextField.setHeight(30);
+    	        titleTextField.setExpression(new JRDesignExpression("\"Informe de Paradas\""));
+    	        titleBand.addElement(titleTextField);
 
-	        jasperDesign.setTitle(titleBand);
+    	        jasperDesign.setTitle(titleBand);
 
-	        JRDesignBand headerBand = new JRDesignBand();
-	        headerBand.setHeight(20);
+    	        JRDesignBand headerBand = new JRDesignBand();
+    	        headerBand.setHeight(20);
 
-	        int xOffset = 0;
-	        int width = 150;
+    	        int xOffset = 0;
+    	        int width = 150;
 
-	        for (String fieldName : fieldNames) {
-	        	
-	            JRDesignTextField headerField = new JRDesignTextField();
-	            headerField.setX(xOffset);
-	            headerField.setY(0);
-	            headerField.setWidth(width);
-	            headerField.setHeight(20);
-	            headerField.setExpression(new JRDesignExpression("\"" + fieldName.toUpperCase() + "\""));
-	            headerBand.addElement(headerField);
+    	        for (String fieldName : fieldNames) {
+    	        	
+    	            JRDesignTextField headerField = new JRDesignTextField();
+    	            headerField.setX(xOffset);
+    	            headerField.setY(0);
+    	            headerField.setWidth(width);
+    	            headerField.setHeight(20);
+    	            headerField.setExpression(new JRDesignExpression("\"" + fieldName.toUpperCase() + "\""));
+    	            headerBand.addElement(headerField);
 
-	            xOffset += width;
-	            
-	        }
+    	            xOffset += width;
+    	            
+    	        }
 
-	        jasperDesign.setColumnHeader(headerBand);
+    	        jasperDesign.setColumnHeader(headerBand);
 
-	        JRDesignBand detailBand = new JRDesignBand();
-	        detailBand.setHeight(20);
+    	        JRDesignBand detailBand = new JRDesignBand();
+    	        detailBand.setHeight(20);
 
-	        xOffset = 0;
+    	        xOffset = 0;
 
-            for (String fieldName : fieldNames) {
-                JRDesignTextField valueField = new JRDesignTextField();
-                valueField.setX(xOffset);
-                valueField.setY(0);
-                valueField.setWidth(width);
-                valueField.setHeight(20);
-                if (fieldName.equals("peregrinos")) {
-                	
-                    valueField.setExpression(new JRDesignExpression("$F{peregrinos}.size()"));
-                    
-                } else {
-                	
-                    valueField.setExpression(new JRDesignExpression("$F{" + fieldName + "}"));
-                    
-                }
-                detailBand.addElement(valueField);
+                for (String fieldName : fieldNames) {
+                    JRDesignTextField valueField = new JRDesignTextField();
+                    valueField.setX(xOffset);
+                    valueField.setY(0);
+                    valueField.setWidth(width);
+                    valueField.setHeight(20);
+                    if (fieldName.equals("peregrinos")) {
+                    	
+                        valueField.setExpression(new JRDesignExpression("$F{peregrinos}.size()"));
+                        
+                    } else {
+                    	
+                        valueField.setExpression(new JRDesignExpression("$F{" + fieldName + "}"));
+                        
+                    }
+                    detailBand.addElement(valueField);
 
-                xOffset += width;
-            }	       
+                    xOffset += width;
+                }	       
 
-	        ((JRDesignSection)jasperDesign.getDetailSection()).addBand(detailBand);
+    	        ((JRDesignSection)jasperDesign.getDetailSection()).addBand(detailBand);
 
-	        JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-	        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new java.util.HashMap<>(), jrDataSource);
+    	        JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+    	        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new java.util.HashMap<>(), jrDataSource);
 
-	        Path tempFile = Files.createTempFile("reporte_paradas", ".pdf");
-	        JasperExportManager.exportReportToPdfFile(jasperPrint, tempFile.toString());
+    	        Path tempFile = Files.createTempFile("reporte_paradas", ".pdf");
+    	        JasperExportManager.exportReportToPdfFile(jasperPrint, tempFile.toString());
 
-	        System.out.println("Informe generado correctamente en: " + tempFile);
+    	        System.out.println("Informe generado correctamente en: " + tempFile);
 
-	        ProcessBuilder processBuilder = new ProcessBuilder(
-	        		
-	            "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-	            "--disable-translate",
-	            "--start-maximized",
-	            tempFile.toString()
-	            
-	        );
-	        processBuilder.start();
-	        
-	    } catch (JRException | IOException e) {
-	        e.printStackTrace();
-	    }
+    	        ProcessBuilder processBuilder = new ProcessBuilder(
+    	        		
+    	            "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+    	            "--disable-translate",
+    	            "--start-maximized",
+    	            tempFile.toString()
+    	            
+    	        );
+    	        processBuilder.start();
+    	        
+    	    } catch (JRException | IOException e) {
+    	        e.printStackTrace();
+    	    }
+        }
+		
+		
 	}
 	
+	
+	
+	
+	/*
+	 * Metodo para validar la region de la parada
+	 */	
 	private boolean validarRegion() {
 		if(cboxRegion.getValue() == null) {
 			alertaRegionVacia();
@@ -343,6 +387,10 @@ public class AdministradorController implements Initializable{
 		}
 	}
 	
+	
+	/*
+	 * Metodo para mostrar una alerta de region vacia
+	 */	
 	private void alertaRegionVacia() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Region vacia");
@@ -350,6 +398,10 @@ public class AdministradorController implements Initializable{
 		alerta.show();
 	}
 
+	
+	/*
+	 * Metodo para entrar en el menu de registro de paradas
+	 */	
 	private boolean usuarioExistente(String usuario) {
 		
 		if(usuario.isBlank()) {
@@ -362,6 +414,10 @@ public class AdministradorController implements Initializable{
 		return true;
 	}
 	
+	/*
+	 * Alerta para usuario existente
+	 */	
+	
 	private void alertaUsuario() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Usuario existente");
@@ -369,12 +425,28 @@ public class AdministradorController implements Initializable{
 		alerta.show();
 	}
 	
+	/*
+	 * Alerta para usuario vacio
+	 */	
+	
 	private void alertaUsuarioVacio() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Usuario vacio");
 		alerta.setContentText("Introduce un usuario");
 		alerta.show();
 	}
+	
+	/*
+	 * Alerta para confirmacion de registro
+	 */	
+	
+	private void alertaConfirmacion() {
+		Alert alerta = new Alert(AlertType.INFORMATION);
+		alerta.setTitle("Registro correcto");
+		alerta.setContentText("Se ha registrado la parada");
+		alerta.show();
+	}
+	
 	
 	
 	

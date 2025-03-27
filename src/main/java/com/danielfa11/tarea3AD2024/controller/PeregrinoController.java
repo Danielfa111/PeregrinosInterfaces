@@ -157,6 +157,10 @@ public class PeregrinoController implements Initializable{
 	
 	private boolean usuarioSinCambiar = false;
 	
+	/*
+	 * Metodo para cargar datos al iniciar la vista
+	 */
+	
 	@SuppressWarnings("unused")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {		
@@ -198,6 +202,10 @@ public class PeregrinoController implements Initializable{
 		});
 		
 	}
+	
+	/*
+	 * Metodo para exportar el carnet del peregrino
+	 */
 	
 	public void clickExportar() {
 		
@@ -391,6 +399,10 @@ public class PeregrinoController implements Initializable{
 		}
 	}
 	
+	/*
+	 * Metodo para entrar al menu de edicion de datos del peregrino
+	 */
+	
 	public void clickEditar() {
 		
 		panelPrincipal.setVisible(false);
@@ -405,6 +417,10 @@ public class PeregrinoController implements Initializable{
 		cboxNacionalidad.setValue(Utils.getKeyByValue(Utils.getDiccionarioPaises(), peregrino.getNacionalidad()));
 	}
 	
+	/*
+	 * Metodo para mostrar o esconder la contraseña
+	 */
+	
 	public void mostrarContraseña() {	
 		if(ptxtContraseña.isVisible()) {
 			btnVer.setImage( new Image ("/images/Login/EsconderContraseña.png"));
@@ -417,6 +433,10 @@ public class PeregrinoController implements Initializable{
 			ptxtContraseña.setVisible(true);
 		}
 	}
+	
+	/*
+	 * Metodo para volver al menu principal
+	 */
 	
 	public void clickCancelar() {
 		
@@ -432,6 +452,10 @@ public class PeregrinoController implements Initializable{
 		cboxNacionalidad.valueProperty().set(null);
 		
 	}
+	
+	/*
+	 * Metodo para editar los datos del peregrino
+	 */
 	
 	public void clickConfirmar() {
 		
@@ -462,15 +486,21 @@ public class PeregrinoController implements Initializable{
 				txtCorreo.clear();
 				cboxNacionalidad.valueProperty().set(null);
 				
+				alertaConfirmacion();
 				
 				panelPrincipal.setVisible(true);
 				panelEditar.setVisible(false);	
 				panelAyuda.setVisible(false);
+				btnVer.setVisible(false);
 			}
 		}
 		
 
 	}
+	
+	/*
+	 * Metodo para cerrar sesion
+	 */
 	
 	public void clickCerrarSesion() {
 		
@@ -487,12 +517,20 @@ public class PeregrinoController implements Initializable{
         }
 	}
 	
+	/*
+	 * Metodo para abrir el menu de ayuda
+	 */
+	
 	public void clickAyuda() {
 		panelPrincipal.setVisible(false);
 		panelEditar.setVisible(false);	
 		panelAyuda.setVisible(true);
 		btnVer.setVisible(false);
 	}
+	
+	/*
+	 * Metodo para salir de la aplicacion
+	 */
 	
 	public void clickSalir()
 	{
@@ -507,6 +545,10 @@ public class PeregrinoController implements Initializable{
         }
 	}
 	
+	/*
+	 * Metodo para validar nacionalidad
+	 */
+	
 	private boolean validarNacionalidad() {
 		if(cboxNacionalidad.getValue() == null) {
 			alertaNacionalidadVacia();
@@ -517,12 +559,20 @@ public class PeregrinoController implements Initializable{
 		}
 	}
 	
+	/*
+	 * Alerta para nacionalidad vacia
+	 */
+	
 	private void alertaNacionalidadVacia() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Nacionalidad vacia");
 		alerta.setContentText("Escoge nacionalidad");
 		alerta.show();
 	}
+	
+	/*
+	 * Alerta para usuario existente
+	 */
 	
 	private boolean usuarioExistente(String usuario) {
 	
@@ -541,6 +591,10 @@ public class PeregrinoController implements Initializable{
 		return true;
 	}
 	
+	/*
+	 * Alerta para usuario vacio
+	 */
+	
 	private void alertaUsuarioVacio() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Usuario vacio");
@@ -548,10 +602,25 @@ public class PeregrinoController implements Initializable{
 		alerta.show();
 	}
 	
+	/*
+	 * Alerta para usuario incorrecto
+	 */
+	
 	private void alertaUsuario() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Usuario existente");
 		alerta.setContentText("Ese usuario ya existe");
+		alerta.show();
+	}
+	
+	/*
+	 * Alerta para confirmar la edicion de datos
+	 */
+	
+	private void alertaConfirmacion() {
+		Alert alerta = new Alert(AlertType.INFORMATION);
+		alerta.setTitle("Edicion completada");
+		alerta.setContentText("Se han editado los datos");
 		alerta.show();
 	}
 	

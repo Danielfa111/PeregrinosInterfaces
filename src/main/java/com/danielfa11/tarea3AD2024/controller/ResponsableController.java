@@ -146,6 +146,10 @@ public class ResponsableController implements Initializable{
 	
 	private ObservableList<Estancia> estanciasTabla = FXCollections.observableArrayList(estancias);
 	
+	/*
+	 * Metodo para cargar datos al iniciar la vista
+	 */
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 	
@@ -223,6 +227,9 @@ public class ResponsableController implements Initializable{
 		
 	}
 	
+	/*
+	 * Metodo para sellar a un peregrino en la parada
+	 */
 
 	public void clickSellar() {
 		
@@ -279,12 +286,16 @@ public class ResponsableController implements Initializable{
 						peregrinoService.save(peregrino);
 
 					}
+					
+					alertaConfirmacion();
 				}
 			}
 		}
 	}
 	
-	
+	/*
+	 * Metodo para exportar las estancias de una parada entre dos fechas
+	 */
 
 	
 	public void clickExportar() {
@@ -326,7 +337,9 @@ public class ResponsableController implements Initializable{
 
 	}
 	
-	
+	/*
+	 * Metodo para cargar el menu de exportacion
+	 */
 	
 	public void clickMenuExportar() {
 		
@@ -335,6 +348,10 @@ public class ResponsableController implements Initializable{
 		panelSellar.setVisible(false);
 		panelAyuda.setVisible(false);
 	}
+	
+	/*
+	 * Metodo para cargar el menu de sellado
+	 */
 	
 	public void clickMenuSellar() {
 		
@@ -345,6 +362,10 @@ public class ResponsableController implements Initializable{
 		
 	}
 	
+	/*
+	 * Metodo para cargar el menu de ayuda
+	 */
+	
 	public void clickAyuda() {
 		
 		panelSellar.setVisible(false);
@@ -353,6 +374,10 @@ public class ResponsableController implements Initializable{
 		panelAyuda.setVisible(true);
 		
 	}
+	
+	/*
+	 * Metodo para cerrar sesion
+	 */
 	
 	
 	public void clickCerrarSesion() {
@@ -370,6 +395,10 @@ public class ResponsableController implements Initializable{
         }
 	}
 	
+	/*
+	 * Metodo para salir de la aplicacion
+	 */
+	
 	public void clickSalir()
 	{
 		Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -382,6 +411,10 @@ public class ResponsableController implements Initializable{
             Platform.exit();
         }
 	}
+	
+	/*
+	 * Metodo para validar el id
+	 */
 	
 	private boolean validarId(String text) {
 
@@ -396,12 +429,21 @@ public class ResponsableController implements Initializable{
         	return false;
         }
     }
+	
+	/*
+	 *  Alerta para id vacio
+	 */
+	
 	private void alertaIdVacio() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Id vacio");
 		alerta.setContentText("Introduce el id del peregrino");
 		alerta.show();
 	}
+	
+	/*
+	 *  Alerta para id incorrecto
+	 */
 	
 	private void alertaIdIncorrecto() {
 		Alert alerta = new Alert(AlertType.WARNING);
@@ -410,12 +452,20 @@ public class ResponsableController implements Initializable{
 		alerta.show();
 	}
 	
+	/*
+	 *  Alerta para id inexistente
+	 */
+	
 	private void alertaIdInexistente() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Id incorrecto");
 		alerta.setContentText("No existe peregrino relacionado con ese id");
 		alerta.show();
 	}
+	
+	/*
+	 *  Alerta para peregrino existente
+	 */
 	
 	private void alertaPeregrino() {
 		Alert alerta = new Alert(AlertType.WARNING);
@@ -424,6 +474,10 @@ public class ResponsableController implements Initializable{
 		alerta.show();
 	}
 	
+	/*
+	 *  Alerta para fechas vacias
+	 */
+	
 	private void alertaFechasVacias() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Fechas vacias");
@@ -431,12 +485,20 @@ public class ResponsableController implements Initializable{
 		alerta.show();
 	}
 	
+	/*
+	 *  Alerta para fechas imposible
+	 */
+	
 	private void alertaFechasFuturas() {
 		Alert alerta = new Alert(AlertType.WARNING);
 		alerta.setTitle("Fechas incorrectas");
 		alerta.setContentText("Una de las fechas es un dia despues del actual");
 		alerta.show();
 	}
+	
+	/*
+	 *  Alerta para rango de fechas imposible
+	 */
 
 	private void alertaFechasIncorrectas() {
 		Alert alerta = new Alert(AlertType.WARNING);
@@ -445,4 +507,14 @@ public class ResponsableController implements Initializable{
 		alerta.show();
 	}
 	
+	/*
+	 *  Alerta para confirmar el sellado del peregrino
+	 */
+	
+	private void alertaConfirmacion() {
+		Alert alerta = new Alert(AlertType.INFORMATION);
+		alerta.setTitle("Peregrino sellado");
+		alerta.setContentText("Se ha sellado al peregrino con exito");
+		alerta.show();
+	}
 }
